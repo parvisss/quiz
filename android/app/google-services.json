@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "757351083193",
+    "project_id": "quiz-eb900",
+    "storage_bucket": "quiz-eb900.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757351083193:android:ca8843cf3c1815fbe37f68",
+        "android_client_info": {
+          "package_name": "com.example.quiz_with_firebase_provider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeuNeUdBXRSPB-79jzX4jAq-U2RigGqQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
