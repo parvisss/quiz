@@ -4,7 +4,9 @@ import 'package:quiz_with_firebase_provider/controllers/user_controller.dart';
 import 'package:quiz_with_firebase_provider/views/screens/question1.dart';
 import 'package:quiz_with_firebase_provider/views/screens/question2.dart';
 import 'package:quiz_with_firebase_provider/views/screens/question3.dart';
+import 'package:quiz_with_firebase_provider/views/screens/top_screen.dart';
 import 'package:quiz_with_firebase_provider/views/screens/user_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int activePage = 1;
+  int activePage = 0;
 
   final questionController = QuestionController();
   final userController = UserController();
@@ -39,15 +41,27 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder:(ctx)=> UserScreen(),
+                  builder: (ctx) => UserScreen(),
                 ),
               );
             },
           ),
         ),
-        actions: [],
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => TopScreen(),
+                ),
+              );
+            },
+            child: Text("Top"),
+          ),
+        ],
       ),
-      body: StreamBuilder(
+      body: StreamBuilder<QuerySnapshot>(
         stream: questionController.list,
         builder: (ctx, snapshot) {
           if (snapshot.hasError) {
@@ -57,16 +71,22 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           }
+
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
           final questions = snapshot.data!.docs;
+
           return PageView(
             controller: pageController,
             scrollDirection: Axis.vertical,
             onPageChanged: (int page) {
-              setState(
-                () {
-                  activePage = page;
-                },
-              );
+              setState(() {
+                activePage = page;
+              });
             },
             children: [
               Question1(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,7 @@ import 'package:quiz_with_firebase_provider/controllers/question_controller.dart
 import 'package:quiz_with_firebase_provider/controllers/user_controller.dart';
 import 'package:quiz_with_firebase_provider/firebase_options.dart';
 import 'package:quiz_with_firebase_provider/views/screens/home_screen.dart';
+import 'package:quiz_with_firebase_provider/views/screens/sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +41,14 @@ class MainApp extends StatelessWidget {
             ),
           ),
           debugShowCheckedModeBanner: false,
-          home: const HomeScreen(),
+          home: StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (ctx, snapshot) {
+                if (snapshot.hasData) {
+                  return HomeScreen();
+                }
+                return SignIn();
+              }),
         ),
       ),
     );

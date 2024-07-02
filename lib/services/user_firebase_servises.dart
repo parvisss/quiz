@@ -5,7 +5,4 @@ class UserFirebaseServises {
   Stream<QuerySnapshot> getUser() async* {
     yield* _userCollection.snapshots();
   }
-  // correctAnsver(){
-  //   _userCollection.snapshots().
-  // }
 }
